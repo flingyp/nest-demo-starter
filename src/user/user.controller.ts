@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateUserDto } from './user.dto';
 import { UserService } from './user.service';
 
@@ -22,5 +31,10 @@ export class UserController {
   @Post('create')
   createUser(@Body() createUserDto: CreateUserDto): string {
     return `创建一个新用户, 用户名是：${createUserDto.name}，密码是：${createUserDto.password}`;
+  }
+
+  @Get('error')
+  giveError() {
+    throw new HttpException('自定义错误', HttpStatus.FORBIDDEN);
   }
 }
