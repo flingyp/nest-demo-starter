@@ -5,9 +5,11 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Query,
 } from '@nestjs/common';
+import { ValidationPipe } from '../pipe/validation.pipe';
 import { CreateUserDto } from './user.dto';
 import { UserService } from './user.service';
 
@@ -22,11 +24,16 @@ export class UserController {
 
   @Get('find/:id')
   findOneUser(
-    @Param('id') id: string | number,
+    @Param('id', ParseIntPipe) id: number,
     @Query('role') role: string,
   ): string {
     return `查询某一位学生,他的ID是${id},他的角色是${role}`;
   }
+
+  // @Post('create')
+  // createUser(@Body(new ValidationPipe()) createUserDto: CreateUserDto): string {
+  //   return `创建一个新用户, 用户名是：${createUserDto.name}，密码是：${createUserDto.password}`;
+  // }
 
   @Post('create')
   createUser(@Body() createUserDto: CreateUserDto): string {
